@@ -7,13 +7,20 @@ from winreg import OpenKey, EnumValue, HKEY_CURRENT_USER
 
 # Global params
 # chatgpt says non-atomic variables are ok in this case
-cpuTemp = 0
-gpuTemp = 0
-mem1Temp = 0
-mem2Temp = 0
+cpuTemp = 0.0
+gpuTemp = 0.0
+mem1Temp = 0.0
+mem2Temp = 0.0
 
 # Constants
 # timeout 15 seconds
+CMD_REGISTER_GAME = "game_metadata"
+CMD_REGISTER_EVENT = "bind_game_event"
+CMD_SEND_EVENT = "game_event"
+
+PULL_SENSORS_DATA_INTERVAL = 1.7 # seconds
+UPDATE_DISPLAY_INVERVAL = 2 # seconds
+
 CORE_PROPS_PATH = r"%ProgramData%\SteelSeries\SteelSeries Engine 3\coreProps.json"
 GAME_NAME = "MONITOR_APP"
 EVENT_NAME = "DISPLAY_TEXT"
@@ -48,7 +55,7 @@ def GetGamesenseAddress():
 
 # Step 2: Register your application
 def Register():
-    url = f"{address}/game_metadata"
+    url = f"{address}/{CMD_REGISTER_GAME}"
     payload = {
         "game": GAME_NAME,
         "game_display_name": "Monitor",
@@ -58,10 +65,11 @@ def Register():
 
   # Step 3: Bind an event to use the OLED screen
 def BindEvent():
-    url = f"{address}/bind_game_event"
+    url = f"{address}/{CMD_REGISTER_EVENT}"
     payload = {
         "game": GAME_NAME,
         "event": EVENT_NAME,
+        "value_optional": True,
         "handlers": [
             {
                 # OLED on Arctis Pro Wireless
@@ -73,21 +81,15 @@ def BindEvent():
                         "lines": [
                             {
                                 "has-text": True,
-                                "context-frame-key": CPU_FRAME_NAME,
-                                "prefix": "CPU: ",
-                                "suffix": CELSIUS
+                                "context-frame-key": CPU_FRAME_NAME
                             },
                             {
                                 "has-text": True,
-                                "context-frame-key": GPU_FRAME_NAME,
-                                "prefix": "GPU: ",
-                                "suffix": CELSIUS
+                                "context-frame-key": GPU_FRAME_NAME
                             },
                             {
                                 "has-text": True,
-                                "context-frame-key": RAM_FRAME_NAME,
-                                "prefix": "RAM: ",
-                                "suffix": CELSIUS
+                                "context-frame-key": RAM_FRAME_NAME
                             }
                         ]
                     }
@@ -97,23 +99,20 @@ def BindEvent():
     }
     requests.post(url, json=payload)
 
+
 # Step 4: Send the actual message to the screen
 def SendEvent():
-    from datetime import datetime
-    now = datetime.now()
-
-    url = f"{address}/game_event"
+    url = f"{address}/{CMD_SEND_EVENT}"
     payload = {
         "game": GAME_NAME,
         "event": EVENT_NAME,
-        "data": {
-            "value": int(round(now.timestamp())),
-            "frame": {
-                CPU_FRAME_NAME: cpuTemp,
-                GPU_FRAME_NAME: gpuTemp,
-                RAM_FRAME_NAME: "{}|{}".format(mem1Temp, mem2Temp)
-            }
-        }
+                "data": {
+                    "frame": {
+                        CPU_FRAME_NAME: f"CPU: {cpuTemp:.1f}{CELSIUS}",
+                        GPU_FRAME_NAME: f"GPU: {gpuTemp:.1f}{CELSIUS}",
+                        RAM_FRAME_NAME: f"RAM: {int(mem1Temp)}|{int(mem2Temp)}{CELSIUS}"
+                    }
+                }
     }
     requests.post(url, json=payload)
 
@@ -126,30 +125,28 @@ def PullSensorsValues(key):
         except OSError:
             break
 
-        match value_name:
-            case _ if value_name == CPU_TEMP_KEY_PATH:
-                global cpuTemp
-                value_data = int(float(value_data))
-                cpuTemp = value_data
-            case _ if value_name == MEM1_TEMP_KEY_PATH:
-                global mem1Temp
-                value_data = int(float(value_data))
-                mem1Temp = value_data
-            case _ if value_name == MEM2_TEMP_KEY_PATH:
-                global mem2Temp
-                value_data = int(float(value_data))
-                mem2Temp = value_data
-            case _ if value_name == GPU_TEMP_KEY_PATH:
-                global gpuTemp
-                value_data = int(float(value_data))
-                gpuTemp = value_data
-
+        if value_name == CPU_TEMP_KEY_PATH:
+            global cpuTemp
+            value_data = float(value_data)
+            cpuTemp = value_data
+        elif value_name == MEM1_TEMP_KEY_PATH:
+            global mem1Temp
+            value_data = float(value_data)
+            mem1Temp = value_data
+        elif value_name == MEM2_TEMP_KEY_PATH:
+            global mem2Temp
+            value_data = float(value_data)
+            mem2Temp = value_data
+        elif value_name == GPU_TEMP_KEY_PATH:
+            global gpuTemp
+            value_data = float(value_data)
+            gpuTemp = value_data
 
 def MonitorSensors():
     with OpenKey(HKEY_CURRENT_USER, HWINFO_KEY_PATH) as key:
         while True:
             PullSensorsValues(key)
-            time.sleep(1.75)
+            time.sleep(PULL_SENSORS_DATA_INTERVAL)
 
 if __name__ == "__main__":
     address = GetGamesenseAddress()
@@ -171,4 +168,4 @@ if __name__ == "__main__":
 
     while True:
         SendEvent()
-        time.sleep(2)
+        time.sleep(UPDATE_DISPLAY_INVERVAL)
