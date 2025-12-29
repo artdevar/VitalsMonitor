@@ -2,6 +2,8 @@
 
 Display system information from HWiNFO64 on your SteelSeries device's OLED screen.
 
+> **Note:** This app was only tested with the Arctis Pro Wireless device. Other devices may work but are untested.
+
 ## Requirements
 
 - **Windows** operating system
@@ -19,7 +21,7 @@ Display system information from HWiNFO64 on your SteelSeries device's OLED scree
 
 **HWiNFO64:**
 - Enable reporting to Gadget: Sensor Settings (Configure Settings button) -> HWiNFO Gadget -> Enable reporting to Gadget"
-- In the list, select which sensors you want to report to Gadget
+- In the list, select which sensors you want to report to Gadget by selecting 'Report value in Gadget'
 
 **SteelSeries Engine:**
 - Download from [steelseries.com](https://steelseries.com/engine)
@@ -43,25 +45,27 @@ python -m pip install -r requirements.txt
 ### Configure Sensors
 
 1. In HWiNFO64 note the sensor names you want to display
-2. Run the configuration GUI:
-   ```
-   python config_gui.pyw
-   ```
+2. Run the configuration app via 'config_gui.pyw'
 3. Configure your display lines and save
 
 ### Run the Monitor
 
-```bash
-python monitor.pyw
-```
-
-Or simply double-click `monitor.pyw`
-
+Simply double-click `monitor.pyw`.
 The script runs in the background. Check `log.txt` for status messages.
 
 ## Configuration
 
 The `sensor_config.json` file stores your configuration with display format strings and HWiNFO64 sensor registry keys.
+
+## Example
+
+Here's an example configuration:
+
+![Configuration GUI](pics/gui.png)
+
+And the result displayed on the device:
+
+![Device Display](pics/device.png)
 
 ## Troubleshooting
 
@@ -69,3 +73,15 @@ The `sensor_config.json` file stores your configuration with display format stri
 - **"Unable to retrieve GameSense address"**: Ensure SteelSeries Engine is running
 - **No display**: Verify HWiNFO64 is running with shared memory enabled
 - Check `log.txt` for detailed error messages
+
+## Known Issues
+
+- **Display glitches occasionally**: This is a limitation of the SteelSeries Engine/device itself, not this application. The display may occasionally flicker or show artifacts.
+
+## Support
+
+If you experience any issues, please contact me on Discord: **volevoyy**
+
+### Advanced Users
+
+If the app doesn't work for your device, you can modify the code yourself using the [SteelSeries GameSense SDK documentation](https://github.com/SteelSeries/gamesense-sdk) to adapt it for your specific device.

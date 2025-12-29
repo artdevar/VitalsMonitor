@@ -191,7 +191,7 @@ class SensorConfigGUI:
         path = self.coreprops_entry.get()
         expanded_path = os.path.expandvars(path)
 
-        if os.path.exists(expanded_path):
+        if os.path.isfile(expanded_path):
             self.coreprops_entry.configure(foreground='green')
         else:
             self.coreprops_entry.configure(foreground='red')
