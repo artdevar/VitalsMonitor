@@ -74,13 +74,9 @@ And the result displayed on the device:
 - **No display**: Verify HWiNFO64 is running with shared memory enabled
 - Check `log.txt` for detailed error messages
 
-## Known Issues
-
-- **Display glitches occasionally**: This is a limitation of the SteelSeries Engine/device itself, not this application. The display may occasionally flicker or show artifacts.
-
 ## Support
 
-If you experience any issues, please contact me on Discord: **volevoyy**
+If you experience any issues or you just want to ask me anything about the app, please contact me on Discord: **volevoyy**
 
 ### Advanced Users
 
