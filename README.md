@@ -44,9 +44,11 @@ python -m pip install -r requirements.txt
 
 ### Configure Sensors
 
-1. In HWiNFO64 note the sensor names you want to display
-2. Run the configuration app via 'config_gui.pyw'
-3. Configure your display lines and save
+1. Ensure SteelSeries Engine is installed (required for coreProps.json file)
+2. In HWiNFO64 note the sensor names you want to display
+3. Run the configuration app via 'config_gui.pyw'
+4. Select your device from the dropdown menu
+5. Configure your display lines and save
 
 ### Run the Monitor
 
