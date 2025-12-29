@@ -74,7 +74,7 @@ class Config:
             logging.info(f"Configuration loaded: {len(self.lines)} line(s), device: {self.device_type}")
             return True
         except FileNotFoundError:
-            logging.warning(f"Configuration file '{self.CONFIG_FILE}' not found. Using defaults.")
+            logging.warning(f"Configuration file '{self.CONFIG_FILE}' not found")
             return False
         except Exception as e:
             logging.error(f"Error loading configuration: {e}")

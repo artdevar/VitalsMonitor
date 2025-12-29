@@ -180,7 +180,7 @@ class SensorConfigGUI:
         except FileNotFoundError:
             messagebox.showwarning("Registry Key Not Found",
                                   f"HWiNFO64 registry key not found at:\n{self.HWINFO_KEY_PATH}\n\n"
-                                  "Make sure HWiNFO64 is running with shared memory enabled.")
+                                  "Make sure HWiNFO64 is running with reporting to Gadget enabled.")
         except Exception as e:
             messagebox.showerror("Error", f"Error reading registry: {str(e)}")
 
