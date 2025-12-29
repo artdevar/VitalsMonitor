@@ -1,6 +1,6 @@
 # SteelSeries Vitals Monitor
 
-Display system information from HWiNFO64 on your SteelSeries device's OLED screen.
+Display system information from HWiNFO64 on your SteelSeries device's screen.
 
 > **Note:** This app was only tested with the Arctis Pro Wireless device. Other devices may work but are untested.
 
@@ -20,6 +20,7 @@ Display system information from HWiNFO64 on your SteelSeries device's OLED scree
 - During installation, check **"Add Python to PATH"**
 
 **HWiNFO64:**
+- Download from [hwinfo.com](https://www.hwinfo.com/download/)
 - Enable reporting to Gadget: Sensor Settings (Configure Settings button) -> HWiNFO Gadget -> Enable reporting to Gadget"
 - In the list, select which sensors you want to report to Gadget by selecting 'Report value in Gadget'
 
