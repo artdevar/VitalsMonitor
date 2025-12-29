@@ -1,1 +1,71 @@
-# SystemMonitor
+# SteelSeries Vitals Monitor
+
+Display system information from HWiNFO64 on your SteelSeries device's OLED screen.
+
+## Requirements
+
+- **Windows** operating system
+- **Python 3.6+** (3.8+ recommended)
+- **HWiNFO64** with reporting to Gadget enabled
+- **SteelSeries Engine**
+
+## Installation
+
+### 1. Install Prerequisites
+
+**Python:**
+- Download from [python.org](https://www.python.org/downloads/)
+- During installation, check **"Add Python to PATH"**
+
+**HWiNFO64:**
+- Enable reporting to Gadget: Sensor Settings (Configure Settings button) -> HWiNFO Gadget -> Enable reporting to Gadget"
+- In the list, select which sensors you want to report to Gadget
+
+**SteelSeries Engine:**
+- Download from [steelseries.com](https://steelseries.com/engine)
+
+### 2. Install Python Dependencies
+
+Open Command Prompt or PowerShell in the project directory and run:
+
+```bash
+pip install -r requirements.txt
+```
+
+Or if you have multiple Python versions:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+## Usage
+
+### Configure Sensors
+
+1. In HWiNFO64 note the sensor names you want to display
+2. Run the configuration GUI:
+   ```
+   python config_gui.pyw
+   ```
+3. Configure your display lines and save
+
+### Run the Monitor
+
+```bash
+python monitor.pyw
+```
+
+Or simply double-click `monitor.pyw`
+
+The script runs in the background. Check `log.txt` for status messages.
+
+## Configuration
+
+The `sensor_config.json` file stores your configuration with display format strings and HWiNFO64 sensor registry keys.
+
+## Troubleshooting
+
+- **"Configuration file not found"**: Run `config_gui.pyw` first
+- **"Unable to retrieve GameSense address"**: Ensure SteelSeries Engine is running
+- **No display**: Verify HWiNFO64 is running with shared memory enabled
+- Check `log.txt` for detailed error messages
