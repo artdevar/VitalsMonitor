@@ -74,7 +74,6 @@ And the result displayed on the device:
 
 - **"Configuration file not found"**: Run `config_gui.pyw` first
 - **"Unable to retrieve GameSense address"**: Ensure SteelSeries Engine is running
-- **No display**: Verify HWiNFO64 is running with shared memory enabled
 - Check `log.txt` for detailed error messages
 
 ## Support
@@ -83,4 +82,5 @@ If you experience any issues or you just want to ask me anything about the app, 
 
 ### Advanced Users
 
-If the app doesn't work for your device, you can modify the code yourself using the [SteelSeries GameSense SDK documentation](https://github.com/SteelSeries/gamesense-sdk) to adapt it for your specific device.
+If the app doesn't work for your device, you can contact me or modify the code yourself using the [SteelSeries GameSense SDK documentation](https://github.com/SteelSeries/gamesense-sdk) to adapt it for your specific device.
+
